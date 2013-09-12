@@ -8,7 +8,8 @@ window.onload = function () {
         'img/friendly_ship.png'
     );
     game.onload = function () {
-        game.replaceScene(gameScene(game));
+        var gameScene = new GameScene(game);
+        game.replaceScene(gameScene.getScene());
     };
 
     game.start();

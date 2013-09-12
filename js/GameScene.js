@@ -1,10 +1,22 @@
+/*----------------------------------------------------------------------------*
+ * GameScene.js
+ *
+ * v0.0.1 (Sep. 13, 2013)
+ * Created and maintenance by R.Morita<ryota.morita.3.8@gmail.com>
+ * Copyright (c) 2013 moryapps. All rights reserved.
+ *----------------------------------------------------------------------------*/
 
-var gameScene = function (game) {
 
-    var scene = new Scene ();
-    scene.backgroundColor = 'rgba(128, 128, 256, 1)';
+var GameScene = function (game) {
+    this.scene = new Scene();
 
-    var friendlyShip = new Sprite (79, 82);
+    GameScene.prototype.getScene = function () {
+        return this.scene;
+    }
+
+    this.scene.backgroundColor = '#aaaaff';
+
+    var friendlyShip = new Sprite (74, 38);
     friendlyShip.image = game.assets['img/friendly_ship.png'];
     friendlyShip.x = 100;
     friendlyShip.y = 100;
@@ -14,7 +26,10 @@ var gameScene = function (game) {
 
     var touchque = new Array();
     var touchstart = {x:0, y:0};
-    scene.addEventListener('touchstart', function(e) {
+    this.scene.addEventListener('touchstart', function(e) {
+        touchstart.x = e.localX;
+        touchstart.y = e.localY;
+
         var lc = touchstart.x > friendlyShip.x;
         var rc = touchstart.x < (friendlyShip.x + friendlyShip.width);
         var uc = touchstart.y > friendlyShip.y;
@@ -22,11 +37,9 @@ var gameScene = function (game) {
         if (lc && rc && uc && dc) {
             touchque.splice(0, touchque.length);
         }
-        touchstart.x = e.localX;
-        touchstart.y = e.localY;
     });
 
-    scene.addEventListener('touchmove', function(e) {
+    this.scene.addEventListener('touchmove', function(e) {
         var lc = touchstart.x > friendlyShip.x;
         var rc = touchstart.x < (friendlyShip.x + friendlyShip.width);
         var uc = touchstart.y > friendlyShip.y;
@@ -36,11 +49,25 @@ var gameScene = function (game) {
         }
     });
 
-    scene.addEventListener('enterframe', function () {
+    var point = new Array();
+    this.scene.addEventListener('enterframe', function () {
+
+        for (var j = 0; j < point.length; j++) {
+            this.scene.removeChild(point.shift());
+        }
+
+        for (var i in touchque) {
+            var sur = Circle(2,'#000');
+            sur.x = touchque[i].x;
+            sur.y = touchque[i].y;
+            this.scene.addChild(sur);
+            point.push(sur);
+        }
+
         var tmp = friendlyShip.npos.subV(friendlyShip.pos);
         if (tmp.length() > 1) {
             tmp.normalize();
-            friendlyShip.pos = friendlyShip.pos.addV(tmp);
+            friendlyShip.pos = friendlyShip.pos.addV(tmp.mulS(1));
 
             friendlyShip.x = friendlyShip.pos.x - (friendlyShip.width / 2);
             friendlyShip.y = friendlyShip.pos.y - (friendlyShip.height / 2);
@@ -51,7 +78,6 @@ var gameScene = function (game) {
 
     });
 
-    scene.addChild(friendlyShip);
+    this.scene.addChild(friendlyShip);
 
-    return scene;
 };
