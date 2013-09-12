@@ -15,6 +15,13 @@ var gameScene = function (game) {
     var touchque = new Array();
     var touchstart = {x:0, y:0};
     scene.addEventListener('touchstart', function(e) {
+        var lc = touchstart.x > friendlyShip.x;
+        var rc = touchstart.x < (friendlyShip.x + friendlyShip.width);
+        var uc = touchstart.y > friendlyShip.y;
+        var dc = touchstart.y < friendlyShip.y + friendlyShip.height;
+        if (lc && rc && uc && dc) {
+            touchque.splice(0, touchque.length);
+        }
         touchstart.x = e.localX;
         touchstart.y = e.localY;
     });
