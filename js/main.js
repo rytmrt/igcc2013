@@ -3,6 +3,8 @@ window.onload = function () {
     game.fps = 30;
     // load image.
     game.preload(
+        'img/background.png',
+        'img/interface.png',
         'img/bullet.png',
         'img/enemy.png',
         'img/friendly_ship.png'

@@ -16,10 +16,14 @@ var GameScene = function (game) {
 
     this.scene.backgroundColor = '#aaaaff';
 
+    var bg = new Sprite (960, 640);
+    bg.image = game.assets['img/background.png']
+    this.scene.addChild(bg);
+
     var friendlyShip = new Sprite (74, 38);
     friendlyShip.image = game.assets['img/friendly_ship.png'];
     friendlyShip.x = 100;
-    friendlyShip.y = 100;
+    friendlyShip.y = 200;
     friendlyShip.npos = new Vec2(friendlyShip.x, friendlyShip.y);
     friendlyShip.pos = new Vec2(friendlyShip.x + 1, friendlyShip.y + 1);
     friendlyShip.dvec = (new Vec2(1, 0)).normalize();
@@ -75,9 +79,12 @@ var GameScene = function (game) {
         else if (touchque.length > 0) {
             friendlyShip.npos = touchque.shift();
         }
-
     });
 
     this.scene.addChild(friendlyShip);
+
+    var ui = new Sprite (960, 640);
+    ui.image = game.assets['img/interface.png']
+    this.scene.addChild(ui);
 
 };
