@@ -20,7 +20,7 @@ var GameScene = function (game) {
     bg.image = game.assets['img/background.png']
     this.scene.addChild(bg);
 
-    var friendlyShip = new Sprite (74, 38);
+    var friendlyShip = new Sprite (142, 110);
     friendlyShip.image = game.assets['img/friendly_ship.png'];
     friendlyShip.x = 100;
     friendlyShip.y = 200;
@@ -73,7 +73,7 @@ var GameScene = function (game) {
         }
 
         for (var i in touchque) {
-            var sur = Circle(2,'#000');
+            var sur = Circle(2,'#fff');
             sur.x = touchque[i].x;
             sur.y = touchque[i].y;
             this.scene.insertBefore(sur, ui);
