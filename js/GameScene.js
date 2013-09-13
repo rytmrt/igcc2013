@@ -26,7 +26,19 @@ var GameScene = function (game) {
     friendlyShip.y = 200;
     friendlyShip.npos = new Vec2(friendlyShip.x, friendlyShip.y);
     friendlyShip.pos = new Vec2(friendlyShip.x + 1, friendlyShip.y + 1);
-    friendlyShip.dvec = (new Vec2(1, 0)).normalize();
+    friendlyShip.dvec = new Vec2(1, 0);
+    friendlyShip.dvec.normalize();
+    this.scene.addChild(friendlyShip);
+
+    var enemy = new Sprite (74, 38);
+    enemy.image = game.assets['img/enemy.png'];
+    enemy.x = 400;
+    enemy.y = 500;
+    this.scene.addChild(enemy);
+
+    var ui = new Sprite (960, 640);
+    ui.image = game.assets['img/interface.png']
+    this.scene.addChild(ui);
 
     var touchque = new Array();
     var touchstart = {x:0, y:0};
@@ -64,7 +76,7 @@ var GameScene = function (game) {
             var sur = Circle(2,'#000');
             sur.x = touchque[i].x;
             sur.y = touchque[i].y;
-            this.scene.addChild(sur);
+            this.scene.insertBefore(sur, ui);
             point.push(sur);
         }
 
@@ -77,14 +89,9 @@ var GameScene = function (game) {
             friendlyShip.y = friendlyShip.pos.y - (friendlyShip.height / 2);
         }
         else if (touchque.length > 0) {
+
             friendlyShip.npos = touchque.shift();
         }
     });
-
-    this.scene.addChild(friendlyShip);
-
-    var ui = new Sprite (960, 640);
-    ui.image = game.assets['img/interface.png']
-    this.scene.addChild(ui);
 
 };
